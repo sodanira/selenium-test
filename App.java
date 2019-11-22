@@ -35,7 +35,10 @@ public class App {
 	
 	public static void main(String[] args) {
 		System.setProperty("webdriver.chrome.driver", "C:\\Users\\U5988179\\Documents\\chromedriver_win32\\chromedriver.exe");
-	
+        	WebDriver driver = new ChromeDriver();
+        	// And now use this to visit Google
+        	driver.get("https://thaiortho.org/");
+		
 		accessHomepage();
 		gotofindDentistpage();
 		findDentistByName();
@@ -44,6 +47,8 @@ public class App {
 		accessYoutubepage();
 		accessSearchBlogPage();
 		accessCategoryPage();
+		test9(driver);
+        	test10(driver);
 	}
 	
 	public static void accessHomepage() {
@@ -266,5 +271,47 @@ public class App {
 
 		// Close an opened tabs (2 tab bars)
 		driver.quit();
+	}
+	
+	public static void test9(WebDriver driver) {
+		//1. Click on the Payment tab
+		driver.findElement(By.linkText("Payment")).click();
+		//2. Click English Payment tab
+		driver.findElement(By.id("elementor-tab-title-1962")).click();
+		//3. Click on the link of Payment form
+		WebElement element = driver.findElement(By.linkText("CLICK HERE TO BEGIN CREDIT CARD ONLINE PAYMENT")); 
+		element.click();
+
+		//4. Received text from tag (a)
+		String actualText = element.getText();
+		System.out.println(element.getText());
+		String expectedText = "CLICK HERE TO BEGIN CREDIT CARD ONLINE PAYMENT";
+		//5. Check whether expected text and actual text from tag (a) is equal or not
+		if (actualText.contentEquals(expectedText)){
+			System.out.println("Test 9 Passed!");
+		    } else {
+			System.out.println("Test 9 Failed");
+		    }
+
+		driver.quit();
+	}
+	
+	public static void test10(WebDriver driver) {
+		//1. Click on the Login tab
+		driver.findElement(By.linkText("เข้าสู่ระบบ")).click();
+		//2. Input user name
+		WebElement username = driver.findElement(By.id("user"));
+		username.sendKeys("SodaAndTheBoys");
+		//3. Input password
+		WebElement password = driver.findElement(By.id("password"));
+		password.sendKeys("0123456789!SodaAndTheBoys");
+		//4. Check remember
+		driver.findElement(By.name("rememberme")).click();
+		//5. Submit information
+		driver.findElement(By.name("wp-submit")).submit();
+
+		//WebElement element = driver.findElement(By.id(""));
+		driver.quit();
+        
 	}
 }
