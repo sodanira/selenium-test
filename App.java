@@ -1,6 +1,8 @@
 package SeleniumTest.SeleniumTest;
 
 
+import java.util.Set;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,7 +14,7 @@ import org.openqa.selenium.support.ui.Wait;
  *
  */
 public class App {
-	public static WebDriver driver = new ChromeDriver();
+//	public static WebDriver driver = new ChromeDriver();
 
 	//xpath Test 1
 	public static String page_title_home = "//p[contains(text(), 'สมาคมทันตแพทย์จัดฟันแห่งประเทศไทย') ]"; 
@@ -35,20 +37,20 @@ public class App {
 	
 	public static void main(String[] args) {
 		System.setProperty("webdriver.chrome.driver", "C:\\Users\\U5988179\\Documents\\chromedriver_win32\\chromedriver.exe");
-        	WebDriver driver = new ChromeDriver();
-        	// And now use this to visit Google
-        	driver.get("https://thaiortho.org/");
+//        	WebDriver driver = new ChromeDriver();
+//        	// And now use this to visit Google
+//        	driver.get("https://thaiortho.org/");
 		
-		accessHomepage();
-		gotofindDentistpage();
-		findDentistByName();
-		findDentistByLocation();
-		accessFacebookpage();
+//		accessHomepage();
+//		gotofindDentistpage();
+//		findDentistByName();
+//		findDentistByLocation();
+//		accessFacebookpage();
 		accessYoutubepage();
-		accessSearchBlogPage();
-		accessCategoryPage();
-		test9(driver);
-        	test10(driver);
+//		accessSearchBlogPage();
+//		accessCategoryPage();
+//		test9(driver);
+//        test10(driver);
 	}
 	
 	public static void accessHomepage() {
@@ -146,74 +148,95 @@ public class App {
 		driver.close();
 	}
 
-	public static void accessFacebookpage() {
-		WebDriver driver = new ChromeDriver();
-		String baseUrl = "https://thaiortho.org/";
-		String fbURL = "https://www.facebook.com/ThaiOrtho";
-		String expectedTitleHome = "สมาคมทันตแพทย์จัดฟันแห่งประเทศไทย";
+	public static void accessFacebookpage() 
+	{
+        // Create a new instance of the Firefox driver
+        // Notice that the remainder of the code relies on the interface, 
+        // not the implementation.
+		String fackbook_button = "/html/body/div/div/div/section[1]/div/div/div[2]/div/div/div[3]/div/div/a[1]";
+//    	System.setProperty("webdriver.chrome.driver", "C:/Users/User/Desktop/QAT/SeleniumTest/chromedriver_win32/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        String baseUrl = "https://thaiortho.org/";
+        String expectedTitle = "หมอจัดฟันไทย - หน้าหลัก | Facebook";
+        String actualTitle = "";
+        //for full screen
+//        driver.manage().window().maximize();
+        // launch Fire fox and direct it to the Base URL
+        driver.get(baseUrl);
+        driver.findElement(By.xpath(fackbook_button)).click();
+        //set old window tab
+        String HomeWindow = driver.getWindowHandle();
+        Set<String> windows = driver.getWindowHandles();
+        for(String currentWindow : windows) 
+        {
+            //move to new tab
+        	if(currentWindow.equals(HomeWindow)==false) 
+        	{
+        		driver.switchTo().window(currentWindow);	
+        		break;
+        	}
+        	//close old tab
+        	driver.close();
+        }
+        // get the actual value of the title
+        actualTitle = driver.getTitle();
+        /*
+         * compare the actual title of the page with the expected one and print
+         * the result as "Passed" or "Failed"
+         */
+        if (actualTitle.contentEquals(expectedTitle)){
+            System.out.println("Test Passed!");
+        } else {
+            System.out.println("Test failed!");
+        }
+        //close all windows
+        driver.quit();
+    }
 
-		driver.get(baseUrl);
-
-		// get the actual value of the title
-		WebElement elementHome = driver.findElement(By.xpath(page_title_home));
-		String actualTitleHome = elementHome.getText();
-
-		if (actualTitleHome.contentEquals(expectedTitleHome)) {
-			// must find button in webpage first then call click() method
-			// driver.find_element_by_xpath("//a[@href='"+fbURL+"']");
-			driver.findElement(By.xpath("//a[@href='"+fbURL+"']")).click();
-			// baseUrl = "https://www.facebook.com/ThaiOrtho";
-			// driver.get(baseUrl);
-			// can go to facebook page but there is still error T-T
-			// elementHome = driver.findElement(By.xpath(page_title_home));
-			expectedTitleHome = "สมาคมทันตแพทย์จัดฟันแห่งประเทศไทย – Thai Association of Orthodontists";
-			// actualTitleHome = elementHome.getText();
-			actualTitleHome = driver.getTitle();
-
-			if (actualTitleHome.contentEquals(expectedTitleHome)) {
-				System.out.println("Test 5 Passed!");
-			} else {
-				System.out.println("Test 5 Failed");
-			}
-		} else {
-			System.out.println("Test 5 Failed");
-		}
-
-	driver.quit();
-	}
+	
 
 	public static void accessYoutubepage() {
 		WebDriver driver = new ChromeDriver();
 		String baseUrl = "https://thaiortho.org/";
 		String ytURL = "https://www.youtube.com/channel/UCXhesSBZWDQq_1k9SoYYnnQ";
-		String expectedTitleHome = "สมาคมทันตแพทย์จัดฟันแห่งประเทศไทย";
-
+		String expectedTitle = "หมอจัดฟันไทย - YouTube";
+		String youtube_button = "/html/body/div/div/div/section[1]/div/div/div[2]/div/div/div[3]/div/div/a[2]";
+		String actualTitle = "";
+		
 		driver.get(baseUrl);
 
 		// get the actual value of the title
-		WebElement elementHome = driver.findElement(By.xpath(page_title_home));
-		String actualTitleHome = elementHome.getText();
-
-		if (actualTitleHome.contentEquals(expectedTitleHome)) {
-			// baseUrl = "https://www.youtube.com/channel/UCXhesSBZWDQq_1k9SoYYnnQ";
-			// driver.get(baseUrl);
-			// can go to facebook page but there is still error T-T
-			//	elementHome = driver.findElement(By.xpath(page_title_home));
-			driver.findElement(By.xpath("//a[@href='"+ytURL+"']")).click();
-			expectedTitleHome = "สมาคมทันตแพทย์จัดฟันแห่งประเทศไทย – Thai Association of Orthodontists";
-			//	actualTitleHome = elementHome.getText();
-			actualTitleHome = driver.getTitle();
-			// System.out.println(actualTitleHome);
-			if (actualTitleHome.contentEquals(expectedTitleHome)) {
-				System.out.println("Test 6 Passed!");
-			} else {
-				System.out.println("Test 6 Failed");
-			}
-		} else {
-			System.out.println("Test 6 Failed");
-		}
-
-		driver.quit();
+		driver.get(baseUrl);
+        driver.findElement(By.xpath(youtube_button)).click();
+        //set old window tab
+        String HomeWindow = driver.getWindowHandle();
+        Set<String> windows = driver.getWindowHandles();
+        for(String currentWindow : windows) 
+        {
+            //move to new tab
+        	if(currentWindow.equals(HomeWindow)==false) 
+        	{
+        		driver.switchTo().window(currentWindow);	
+        		break;
+        	}
+        	//close old tab
+        	driver.close();
+        }
+        // get the actual value of the title
+        actualTitle = driver.getTitle();
+        /*
+         * compare the actual title of the page with the expected one and print
+         * the result as "Passed" or "Failed"
+         */
+        if (actualTitle.contentEquals(expectedTitle)){
+            System.out.println("Test Passed!");
+        } 
+        else 
+        {
+            System.out.println("Test failed!");
+        }
+        //close all windows
+        driver.quit();
 	}
 
 	public static void accessSearchBlogPage() {
