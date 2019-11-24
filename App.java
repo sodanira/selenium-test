@@ -46,11 +46,13 @@ public class App {
 //		findDentistByName();
 //		findDentistByLocation();
 //		accessFacebookpage();
-		accessYoutubepage();
+//		accessYoutubepage();
 //		accessSearchBlogPage();
 //		accessCategoryPage();
 //		test9(driver);
-//        	test10(driver);
+//        test10(driver);
+//		test11();
+		test12();
 	}
 	
 	public static void accessHomepage() {
@@ -333,17 +335,108 @@ public class App {
 		//5. Submit information
 		driver.findElement(By.name("wp-submit")).submit();
 
-		String expectedURL = "https://thaiortho.org/wp-login.php";
-		String actualURL = driver.getCurrentUrl();
 		//WebElement element = driver.findElement(By.id(""));
-		//System.out.println(actualURL);
-		if(actualURL.equals(expectedURL)) {
-			System.out.println("Correct Login URL");
-		}
-		else {
-			System.out.println("Incorrect Login URL");
-		}
-		driver.quit();
-		
+		driver.quit();  
+	}
+	
+	public static void test11() {
+		WebDriver driver = new ChromeDriver();
+		String News_button = "/html/body/div/div/div/section[3]/div/div/div/div/div/div[2]/div/div/article[1]/div/a";
+		String Share_Facebook = "/html/body/div[2]/div/div/section/div/div/div/div/div/section/div/div/div[2]/div/div/div[2]/div/div/div[1]/div/span/i";
+
+        String baseUrl = "https://thaiortho.org/";
+        String expectedTitle = "Facebook";
+        String actualTitle = "";
+        
+        driver.manage().window().maximize();
+        
+        // launch Fire fox and direct it to the Base URL
+        driver.get(baseUrl);
+        
+        driver.findElement(By.xpath(News_button)).click();
+        driver.findElement(By.xpath(Share_Facebook)).click();
+ 
+        String HomeWindow = driver.getWindowHandle();
+        
+        Set<String> windows = driver.getWindowHandles();
+        
+        for(String currentWindow : windows) {
+            //move to new tab
+        	if(currentWindow.equals(HomeWindow)==false) {
+        		driver.switchTo().window(currentWindow);	
+        		break;
+        	}
+        	//close old tab
+        driver.close();
+      }
+    
+        driver.manage().window().maximize();
+        
+        // get the actual value of the title
+        actualTitle = driver.getTitle();
+
+        /*
+         * compare the actual title of the page with the expected one and print
+         * the result as "Passed" or "Failed"
+         */
+        if (actualTitle.contentEquals(expectedTitle)){
+            System.out.println("Test Passed!");
+        } else {
+        	
+            System.out.println("Test Failed!");
+        }
+       
+        //close all windows
+        driver.quit();
+	}
+	
+	public static void test12() {
+		WebDriver driver = new ChromeDriver();
+		String Download_button = "//*[@id=\"menu-1-2f56841e\"]/li[4]/a";
+    	String Article_button = "/html/body/div[2]/div/div/section/div/div/div/div/div/div/div/ul/li[1]/a/span[2]";
+    	String baseUrl = "https://thaiortho.org/";
+        String expectedUrl = "https://thaiortho.org/wp-content/uploads/2019/07/Cleft-ebook.pdf";
+        String actualUrl = "";
+        
+        driver.manage().window().maximize();
+        
+        // launch Fire fox and direct it to the Base URL
+        driver.get(baseUrl);
+        
+        driver.findElement(By.xpath(Download_button)).click();
+        driver.findElement(By.xpath(Article_button)).click();
+
+        String HomeWindow = driver.getWindowHandle();
+        
+        Set<String> windows = driver.getWindowHandles();
+        
+        for(String currentWindow : windows) {
+            //move to new tab
+        	if(currentWindow.equals(HomeWindow)==false) {
+        		driver.switchTo().window(currentWindow);	
+        		break;
+        	}
+        	//close old tab
+        driver.close();
+      }
+
+        driver.manage().window().maximize();
+        
+        // get the actual value of the title
+        actualUrl = driver.getCurrentUrl();
+
+        /*
+         * compare the actual title of the page with the expected one and print
+         * the result as "Passed" or "Failed"
+         */
+        if (actualUrl.contentEquals(expectedUrl)){
+            System.out.println("Test Passed!");
+        } else {
+        	
+            System.out.println("Test Failed!");
+        }
+       
+        //close all windows
+        driver.quit();
 	}
 }
