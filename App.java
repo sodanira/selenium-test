@@ -333,8 +333,17 @@ public class App {
 		//5. Submit information
 		driver.findElement(By.name("wp-submit")).submit();
 
+		String expectedURL = "https://thaiortho.org/wp-login.php";
+		String actualURL = driver.getCurrentUrl();
 		//WebElement element = driver.findElement(By.id(""));
+		//System.out.println(actualURL);
+		if(actualURL.equals(expectedURL)) {
+			System.out.println("Correct Login URL");
+		}
+		else {
+			System.out.println("Incorrect Login URL");
+		}
 		driver.quit();
-        
+		
 	}
 }
