@@ -50,7 +50,7 @@ public class App {
 //		accessSearchBlogPage();
 //		accessCategoryPage();
 //		test9(driver);
-//        test10(driver);
+//        	test10(driver);
 	}
 	
 	public static void accessHomepage() {
